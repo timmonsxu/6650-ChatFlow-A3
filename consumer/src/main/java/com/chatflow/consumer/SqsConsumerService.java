@@ -131,18 +131,20 @@ public class SqsConsumerService {
     }
 
     private void processMessage(String roomId, Message sqsMessage, String queueUrl) {
+        String body = sqsMessage.body();
         try {
-            String body = sqsMessage.body();
-
-            // Extract roomId from message body as a sanity check
+            // Extract roomId from message body
             // (should always match the queue's roomId since server routes by payload roomId)
             JsonNode node = mapper.readTree(body);
             String msgRoomId = node.has("roomId") ? node.get("roomId").asText() : roomId;
 
+            // broadcast() throws BroadcastException if ALL servers fail.
+            // In that case we do NOT delete the message — it will become visible
+            // again after the visibility timeout and be retried.
             broadcastClient.broadcast(msgRoomId, body);
             broadcastCalls.incrementAndGet();
 
-            // Delete from SQS only after successful broadcast attempt
+            // Only delete AFTER confirmed broadcast success (at least one server acked)
             sqsClient.deleteMessage(DeleteMessageRequest.builder()
                     .queueUrl(queueUrl)
                     .receiptHandle(sqsMessage.receiptHandle())
@@ -150,9 +152,12 @@ public class SqsConsumerService {
 
             messagesConsumed.incrementAndGet();
 
+        } catch (BroadcastClient.BroadcastException e) {
+            // All servers failed — do NOT delete. Message will be retried after visibility timeout.
+            log.error("Broadcast failed for room {}, message will be retried: {}", roomId, e.getMessage());
         } catch (Exception e) {
+            // Parse error or SQS delete error — log and leave message in queue
             log.error("Failed to process message in room {}: {}", roomId, e.getMessage());
-            // Message stays in queue and becomes visible again after visibility timeout
         }
     }
 

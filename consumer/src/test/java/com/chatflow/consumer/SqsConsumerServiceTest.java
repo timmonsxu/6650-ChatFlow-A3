@@ -36,7 +36,7 @@ class SqsConsumerServiceTest {
     }
 
     @Test
-    void broadcastClient_isCalledWithCorrectRoomId() {
+    void broadcastClient_isCalledWithCorrectRoomId() throws BroadcastClient.BroadcastException {
         // Simulate processMessage via reflection
         String roomId = "05";
         String body = "{\"messageId\":\"uuid-1\",\"roomId\":\"05\",\"userId\":\"1\"," +
@@ -55,7 +55,8 @@ class SqsConsumerServiceTest {
     }
 
     @Test
-    void broadcastClient_calledWithMissingRoomId_fallsBackToQueueRoomId() {
+    void broadcastClient_calledWithMissingRoomId_fallsBackToQueueRoomId()
+            throws BroadcastClient.BroadcastException {
         // Message body without roomId field — consumer falls back to queue's roomId
         String body = "{\"messageId\":\"uuid-2\",\"message\":\"hello\"}";
         broadcastClient.broadcast("07", body);

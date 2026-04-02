@@ -57,23 +57,27 @@ sudo yum install tmux -y
 ### 1.2 Connect to EC2
 
 ```bash
-# EC2 main
+# Server 1
 ssh -i $HOME\.ssh\6650-Timmons-Project.pem ec2-user@54.184.109.66
 # Server 2
-ssh -i $HOME\.ssh\6650-A2-S2.pem ec2-user@54.190.22.194
+ssh -i $HOME\.ssh\6650-Timmons-Project.pem ec2-user@54.190.22.194
+# Consumer
+ssh -i $HOME\.ssh\6650-Timmons-Project.pem ec2-user@35.92.149.159
+
+
 ```
 
 ### 1.3 Deploy Components to EC2
 
 ```bash
-# deploy server to main
-scp -i $HOME\.ssh\6650-Timmons-Project.pem server-v2/target/server-v2-1.0.0.jar ec2-user@54.184.109.66:~/
+# deploy server to A
+scp -i $HOME\.ssh\6650-Timmons-Project.pem target/server-v2-1.0.0.jar ec2-user@54.184.109.66:~/
 
 # deploy server to B
-scp -i $HOME\.ssh\6650-A2-S2.pem server-v2/target/server-v2-1.0.0.jar ec2-user@54.190.22.194:~/
+scp -i $HOME\.ssh\6650-Timmons-Project.pem target/server-v2-1.0.0.jar ec2-user@54.190.22.194:~/
 
 # deploy consumer
-scp -i $HOME\.ssh\6650-Timmons-Project.pem consumer/target/consumer-1.0.0.jar ec2-user@54.184.109.66:~/
+scp -i $HOME\.ssh\6650-Timmons-Project.pem consumer/target/consumer-1.0.0.jar ec2-user@35.92.149.159:~/
 ```
 
 ### 1.4 Run Components

@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS messages (
 );
 ```
 
-📸 [Screenshot: `psql \d messages` output showing live table structure and constraints](screenshots/db.png)
+![Screenshot: `psql \d messages` output showing live table structure and constraints](screenshots/db.png)
 
 ### Field Rationale
 

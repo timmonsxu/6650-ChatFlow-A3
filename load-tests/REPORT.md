@@ -78,9 +78,9 @@ At ~1,000 msg/s divided across 5 writer threads, each thread receives ~200 messa
 - Room distribution was uniform across all 20 rooms (~25,000 messages per room)
 - Top user message count was 18 — consistent with random userId selection from 1–100,000
 
-📸 *[Screenshot 1: Client terminal output — throughput summary](screenshots/t1.1.png)
-📸 *[Screenshot 2: Client terminal output — formatted metrics API response](screenshots/t1.2.png)
-📸 *[Screenshot 3: Cloud Watch Queue Depth](screenshots/test1-queue.png)
+ ![Screenshot 1: Client terminal output — throughput summary](screenshots/t1.1.png)
+ ![Screenshot 2: Client terminal output — formatted metrics API response](screenshots/t1.2.png)
+ ![Screenshot 3: Cloud Watch Queue Depth](screenshots/test1-queue.png)
 
 ```
 --- /health ---
@@ -133,9 +133,9 @@ At ~1,000 msg/s divided across 5 writer threads, each thread receives ~200 messa
 
 **Throughput comparison:** 978 msg/s vs 1,008 msg/s in Test 1 — 3% degradation attributable to larger table and higher index maintenance cost, not to the DB write pipeline itself.
 
-📸 *[Screenshot 4: Client terminal output — throughput summary](screenshots/t2.1.png)
-📸 *[Screenshot 5: Client terminal output — formatted metrics API response](screenshots/t2.2.png)
-📸 *[Screenshot 6: Cloud Watch Queue Depth](screenshots/test2-queue.png)
+![Screenshot 4: Client terminal output — throughput summary](screenshots/t2.1.png)
+![Screenshot 5: Client terminal output — formatted metrics API response](screenshots/t2.2.png)
+![Screenshot 6: Cloud Watch Queue Depth](screenshots/test2-queue.png)
 ```
 --- /health ---
 {
@@ -175,7 +175,7 @@ Both EC2-S1 and EC2-S2 reached **~90% CPU utilization** and became unable to com
 4. EC2-S2 subsequently reaches **~90% CPU** as it absorbs all broadcast traffic alone
 5. Both servers become unresponsive; test client WebSocket sessions disconnect
 
-📸 *[Screenshot 7: CloudWatch CPU Utilization — EC2-S1 peak at 91.8%, EC2-S2 secondary peak](screenshots/ec2-server-cpu.png)
+![Screenshot 7: CloudWatch CPU Utilization — EC2-S1 peak at 91.8%, EC2-S2 secondary peak](screenshots/ec2-server-cpu.png)
 
 ### Critical Observation: DB Pipeline Was Unaffected
 
